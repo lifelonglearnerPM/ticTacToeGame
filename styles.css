@@ -84,7 +84,7 @@ button:disabled {
 /* Winning Line Animation */
 .winning-line {
   position: absolute;
-  background-color: rgba(255, 0, 0, 0.7);
+  background-color: rgba(0, 255, 0, 0.7); /* Green line */
   transition: all 0.5s ease-in-out;
 }
 

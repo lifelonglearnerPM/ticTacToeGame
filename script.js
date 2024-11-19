@@ -50,33 +50,31 @@ const highlightWinningLine = (pattern) => {
   winningLine.classList.add('winning-line');
 
   // Horizontal win (same row)
-  if (a === b && b === c) { 
+  if (a === b && b === c) {
     winningLine.classList.add('horizontal');
-    // Position the horizontal line correctly
-    const topPosition = rectA.top - gridRect.top + rectA.height / 2 - 5; // Center it vertically
-    const leftPosition = rectA.left - gridRect.left; // Align with the left edge of the grid
+    const topPosition = rectA.top - gridRect.top + rectA.height / 2 - 5; // Center vertically
+    const leftPosition = rectA.left - gridRect.left; // Align with left edge of grid
     const width = rectA.width * 3; // Full width of the three cells
 
     winningLine.style.top = `${topPosition}px`;
     winningLine.style.left = `${leftPosition}px`;
     winningLine.style.width = `${width}px`;
     winningLine.style.height = `10px`;
-  } 
+  }
   // Vertical win (same column)
-  else if (a % 3 === b % 3 && b % 3 === c % 3) { 
+  else if (a % 3 === b % 3 && b % 3 === c % 3) {
     winningLine.classList.add('vertical');
-    // Position the vertical line correctly
-    const leftPosition = rectA.left - gridRect.left + rectA.width / 2 - 5; // Center it horizontally
-    const topPosition = rectA.top - gridRect.top; // Align with the top edge of the grid
+    const leftPosition = rectA.left - gridRect.left + rectA.width / 2 - 5; // Center horizontally
+    const topPosition = rectA.top - gridRect.top; // Align with top edge of grid
     const height = rectA.height * 3; // Full height of the three cells
 
     winningLine.style.left = `${leftPosition}px`;
     winningLine.style.top = `${topPosition}px`;
     winningLine.style.width = `10px`;
     winningLine.style.height = `${height}px`;
-  } 
+  }
   // Diagonal win
-  else { 
+  else {
     const startX = rectA.left + rectA.width / 2;
     const startY = rectA.top + rectA.height / 2;
     const endX = rectC.left + rectC.width / 2;
@@ -101,53 +99,35 @@ const highlightWinningLine = (pattern) => {
   document.body.appendChild(winningLine);
 };
 
-// Handle player moves
-const handleCellClick = (event) => {
-  if (!gameActive) return;
+// Cell click event
+const handleCellClick = (index) => {
+  if (gameBoard[index] || !gameActive) return;
 
-  const cell = event.target;
-  const index = cell.dataset.index;
-
-  if (gameBoard[index] !== '') return; // Cell already occupied
-
-  // Update the board and cell
   gameBoard[index] = currentPlayer;
-  cell.innerText = currentPlayer;
+  cells[index].innerText = currentPlayer;
 
-  // Check for winner
   if (checkWinner()) {
-    statusDisplay.innerText = `Player ${currentPlayer} Wins!`;
+    statusDisplay.innerText = `${currentPlayer} wins!`;
     gameActive = false;
-    return;
+  } else {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
   }
-
-  // Switch player
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
 };
 
 // Reset the game
-const resetGame = () => {
+resetButton.addEventListener('click', () => {
   gameBoard = ['', '', '', '', '', '', '', '', ''];
   currentPlayer = 'X';
   gameActive = true;
   winner = null;
   statusDisplay.innerText = `Player X's turn`;
-
-  cells.forEach(cell => {
-    cell.innerText = '';
-  });
-
-  // Remove any existing winning lines
-  const winningLine = document.querySelector('.winning-line');
-  if (winningLine) {
-    winningLine.remove();
-  }
-};
-
-// Event Listeners
-cells.forEach(cell => {
-  cell.addEventListener('click', handleCellClick);
+  cells.forEach(cell => cell.innerText = '');
+  const winningLines = document.querySelectorAll('.winning-line');
+  winningLines.forEach(line => line.remove()); // Remove any existing winning lines
 });
 
-resetButton.addEventListener('click', resetGame);
+// Attach click events to cells
+cells.forEach((cell, index) => {
+  cell.addEventListener('click', () => handleCellClick(index));
+});
