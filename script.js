@@ -42,6 +42,9 @@ const highlightWinningLine = (pattern) => {
   const rectB = cells[b].getBoundingClientRect();
   const rectC = cells[c].getBoundingClientRect();
 
+  // Get the grid container position
+  const gridRect = document.querySelector('.game-board').getBoundingClientRect();
+
   // Create a div for the winning line
   const winningLine = document.createElement('div');
   winningLine.classList.add('winning-line');
@@ -49,21 +52,30 @@ const highlightWinningLine = (pattern) => {
   // Horizontal win (same row)
   if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
-    // Center of the row for horizontal
-    winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
-    winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
-    winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
+    // Position the horizontal line correctly
+    const topPosition = rectA.top - gridRect.top + rectA.height / 2 - 5; // Center it vertically
+    const leftPosition = rectA.left - gridRect.left; // Align with the left edge of the grid
+    const width = rectA.width * 3; // Full width of the three cells
+
+    winningLine.style.top = `${topPosition}px`;
+    winningLine.style.left = `${leftPosition}px`;
+    winningLine.style.width = `${width}px`;
     winningLine.style.height = `10px`;
   } 
   // Vertical win (same column)
   else if (a % 3 === b % 3 && b % 3 === c % 3) { 
     winningLine.classList.add('vertical');
-    winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
-    winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
-    winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
+    // Position the vertical line correctly
+    const leftPosition = rectA.left - gridRect.left + rectA.width / 2 - 5; // Center it horizontally
+    const topPosition = rectA.top - gridRect.top; // Align with the top edge of the grid
+    const height = rectA.height * 3; // Full height of the three cells
+
+    winningLine.style.left = `${leftPosition}px`;
+    winningLine.style.top = `${topPosition}px`;
     winningLine.style.width = `10px`;
+    winningLine.style.height = `${height}px`;
   } 
-  // Diagonal win (diagonal line)
+  // Diagonal win
   else { 
     const startX = rectA.left + rectA.width / 2;
     const startY = rectA.top + rectA.height / 2;
