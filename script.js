@@ -61,14 +61,15 @@ const highlightWinningLine = (pattern) => {
     winningLine.classList.add('diagonal');
     const centerX = rectA.left + rectA.width / 2;
     const centerY = rectA.top + rectA.height / 2;
-    
+
     // Calculate the diagonal length
     const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2)) + 10;
 
+    // Set the diagonal line's position and size
     winningLine.style.left = `${centerX - diagonalLength / 2}px`;
     winningLine.style.top = `${centerY - diagonalLength / 2}px`;
     winningLine.style.width = `${diagonalLength}px`;
-    winningLine.style.transform = `rotate(45deg)`;
+    winningLine.style.transform = `rotate(45deg)`; // Rotating for diagonal line
     winningLine.style.transformOrigin = 'center';
   }
 
