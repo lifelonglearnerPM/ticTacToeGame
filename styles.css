@@ -16,20 +16,22 @@ body {
   flex-direction: column;
 }
 
+/* Header/Title styling */
 h1 {
   font-size: 2rem;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Grid Container */
-.grid {
+/* game-board Container */
+.game-board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 5px;
+  grid-template-columns: repeat(3, 100px);  /* 3 equal columns */
+  grid-template-rows: repeat(3, 100px);     /* 3 equal rows */
+  gap: 5px;                                 /* Space between cells */
   justify-content: center;
   margin-bottom: 20px;
+  position: relative;  /* Make sure winning line is positioned correctly */
 }
 
 /* Individual Cell Styling */
@@ -108,10 +110,10 @@ button:disabled {
 
 /* Responsive Layout */
 @media (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(3, 80px);
-    grid-template-rows: repeat(3, 80px);
-    gap: 3px;
+  .game-board {
+    grid-template-columns: repeat(3, 80px);  /* Adjust column size for smaller screens */
+    grid-template-rows: repeat(3, 80px);     /* Adjust row size */
+    gap: 3px;  /* Reduce space between cells */
   }
 
   .cell {
