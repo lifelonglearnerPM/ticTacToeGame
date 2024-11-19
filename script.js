@@ -49,6 +49,7 @@ const highlightWinningLine = (pattern) => {
   // Horizontal win (same row)
   if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
+    // Center of the row for horizontal
     winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
     winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
     winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
@@ -69,6 +70,7 @@ const highlightWinningLine = (pattern) => {
     const endX = rectC.left + rectC.width / 2;
     const endY = rectC.top + rectC.height / 2;
 
+    // Calculate the length of the diagonal line
     const diagonalLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
 
     winningLine.classList.add('diagonal');
@@ -77,6 +79,7 @@ const highlightWinningLine = (pattern) => {
     winningLine.style.width = `${diagonalLength}px`;
     winningLine.style.height = `10px`;
 
+    // Calculate the angle of the line for rotation
     const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
     winningLine.style.transform = `rotate(${angle}deg)`;
     winningLine.style.transformOrigin = 'center';
