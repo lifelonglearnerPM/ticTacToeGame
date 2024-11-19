@@ -46,50 +46,41 @@ const highlightWinningLine = (pattern) => {
   const winningLine = document.createElement('div');
   winningLine.classList.add('winning-line');
 
-  // Calculate horizontal line
-  if (a === b && b === c) {
+  // Horizontal win
+  if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
-    const top = rectA.top + rectA.height / 2 - 5; // Center the line vertically
-    const left = rectA.left; // Starting point of the line (left edge of the first cell)
-    const width = rectA.width * 3; // The line will span the entire row (3 columns)
-    const height = 10;
-
-    winningLine.style.top = `${top}px`;
-    winningLine.style.left = `${left}px`;
-    winningLine.style.width = `${width}px`;
-    winningLine.style.height = `${height}px`;
+    winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
+    winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
+    winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
+    winningLine.style.height = `10px`;
   }
-  // Calculate vertical line
-  else if (a === c) {
+  // Vertical win
+  else if (a === b && b !== c) { 
     winningLine.classList.add('vertical');
-    const left = rectA.left + rectA.width / 2 - 5; // Center the line horizontally
-    const top = rectA.top; // Starting point of the line (top edge of the first cell)
-    const height = rectA.height * 3; // The line will span the entire column (3 rows)
-    const width = 10;
-
-    winningLine.style.left = `${left}px`;
-    winningLine.style.top = `${top}px`;
-    winningLine.style.height = `${height}px`;
-    winningLine.style.width = `${width}px`;
+    winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
+    winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
+    winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
+    winningLine.style.width = `10px`;
   }
-  // Calculate diagonal line
-  else {
+  // Diagonal win
+  else { 
     const centerX = rectA.left + rectA.width / 2;
     const centerY = rectA.top + rectA.height / 2;
-    const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2)); // Length of diagonal
+    const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2));
 
     winningLine.classList.add('diagonal');
-    winningLine.style.left = `${centerX - diagonalLength / 2}px`; // Starting point of the diagonal
-    winningLine.style.top = `${centerY - diagonalLength / 2}px`; // Starting point of the diagonal
-    winningLine.style.width = `${diagonalLength}px`; // Diagonal length
-    winningLine.style.height = `10px`; // Line thickness
-    winningLine.style.transform = `rotate(45deg)`; // Rotate the line to 45 degrees for diagonal
+    winningLine.style.left = `${centerX - diagonalLength / 2}px`;
+    winningLine.style.top = `${centerY - diagonalLength / 2}px`;
+    winningLine.style.width = `${diagonalLength}px`;
+    winningLine.style.height = `10px`;
+    winningLine.style.transform = `rotate(45deg)`; // Rotate 45 degrees for diagonal
     winningLine.style.transformOrigin = 'center';
   }
 
   // Add the line to the body
   document.body.appendChild(winningLine);
 };
+
 
 // Handle cell click
 const handleCellClick = (index) => {
