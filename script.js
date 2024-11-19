@@ -46,30 +46,34 @@ const highlightWinningLine = (pattern) => {
   const winningLine = document.createElement('div');
   winningLine.classList.add('winning-line');
 
-  // Determine the line type and position
-  if (a === b && b === c) { // Vertical line (same column)
-    winningLine.classList.add('vertical');
-    winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
-    winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
-    winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
-  } else if (a === c) { // Horizontal line (same row)
+  // Horizontal win
+  if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
     winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
-    winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
     winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
-  } else { // Diagonal line
-    winningLine.classList.add('diagonal');
+    winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
+    winningLine.style.height = `10px`;
+  }
+  // Vertical win
+  else if (a === c) { 
+    winningLine.classList.add('vertical');
+    winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
+    winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
+    winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
+    winningLine.style.width = `10px`;
+  }
+  // Diagonal win
+  else { 
     const centerX = rectA.left + rectA.width / 2;
     const centerY = rectA.top + rectA.height / 2;
+    const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2));
 
-    // Calculate the diagonal length
-    const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2)) + 10;
-
-    // Set the diagonal line's position and size
+    winningLine.classList.add('diagonal');
     winningLine.style.left = `${centerX - diagonalLength / 2}px`;
     winningLine.style.top = `${centerY - diagonalLength / 2}px`;
     winningLine.style.width = `${diagonalLength}px`;
-    winningLine.style.transform = `rotate(45deg)`; // Rotating for diagonal line
+    winningLine.style.height = `10px`;
+    winningLine.style.transform = `rotate(45deg)`; // Rotate 45 degrees for diagonal
     winningLine.style.transformOrigin = 'center';
   }
 
@@ -112,8 +116,9 @@ const resetGame = () => {
 };
 
 // Add event listeners
-cells.forEach(cell => {
-  cell.addEventListener('click', () => handleCellClick(cell.dataset.index));
+cells.forEach((cell, index) => {
+  cell.dataset.index = index;
+  cell.addEventListener('click', () => handleCellClick(index));
 });
 
 resetButton.addEventListener('click', resetGame);
