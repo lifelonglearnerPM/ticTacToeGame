@@ -33,6 +33,7 @@ const checkWinner = () => {
   return false;
 };
 
+
 // Highlight the winning line
 const highlightWinningLine = (pattern) => {
   const [a, b, c] = pattern;
@@ -46,40 +47,48 @@ const highlightWinningLine = (pattern) => {
   const winningLine = document.createElement('div');
   winningLine.classList.add('winning-line');
 
-  // Horizontal win
+  // For horizontal win
   if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
     winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
     winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
     winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
     winningLine.style.height = `10px`;
-  }
-  // Vertical win
-  else if (a === b && b !== c) { 
+  } 
+  // For vertical win
+  else if (a % 3 === b % 3 && b % 3 === c % 3) {  // Cells are vertically aligned
     winningLine.classList.add('vertical');
     winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
     winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
     winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
     winningLine.style.width = `10px`;
-  }
-  // Diagonal win
-  else { 
-    const centerX = rectA.left + rectA.width / 2;
-    const centerY = rectA.top + rectA.height / 2;
-    const diagonalLength = Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2));
+  } 
+  // For diagonal win
+  else {
+    const startX = rectA.left + rectA.width / 2;
+    const startY = rectA.top + rectA.height / 2;
+    const endX = rectC.left + rectC.width / 2;
+    const endY = rectC.top + rectC.height / 2;
+
+    // Diagonal win line: Calculate distance between the first and last cell
+    const diagonalLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
 
     winningLine.classList.add('diagonal');
-    winningLine.style.left = `${centerX - diagonalLength / 2}px`;
-    winningLine.style.top = `${centerY - diagonalLength / 2}px`;
+    winningLine.style.left = `${startX - diagonalLength / 2}px`;
+    winningLine.style.top = `${startY - diagonalLength / 2}px`;
     winningLine.style.width = `${diagonalLength}px`;
     winningLine.style.height = `10px`;
-    winningLine.style.transform = `rotate(45deg)`; // Rotate 45 degrees for diagonal
+
+    // Calculate angle of rotation
+    const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+    winningLine.style.transform = `rotate(${angle}deg)`;
     winningLine.style.transformOrigin = 'center';
   }
 
   // Add the line to the body
   document.body.appendChild(winningLine);
 };
+
 
 
 // Handle cell click

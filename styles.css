@@ -81,31 +81,31 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Winning Line Animation */
+./* Winning Line Animation */
 .winning-line {
   position: absolute;
-  background-color: rgba(255, 0, 0, 0.7);
+  background-color: rgba(255, 0, 0, 0.7); /* Red line color */
   transition: all 0.5s ease-in-out;
+  z-index: 10; /* Ensure the line is above the grid */
 }
 
 /* Horizontal Winning Line */
 .horizontal {
   height: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green for horizontal */
+  background-color: rgba(0, 255, 0, 0.7); /* Green color for horizontal */
 }
 
 /* Vertical Winning Line */
 .vertical {
   width: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green for vertical */
+  background-color: rgba(0, 255, 0, 0.7); /* Green color for vertical */
 }
 
 /* Diagonal Winning Line */
 .diagonal {
   height: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green for diagonal */
+  background-color: rgba(0, 255, 0, 0.7); /* Green color for diagonal */
   transform-origin: center;
-  transform: rotate(45deg);
 }
 
 /* Responsive Layout */
