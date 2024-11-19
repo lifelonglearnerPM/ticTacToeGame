@@ -84,9 +84,8 @@ button:disabled {
 /* Winning Line Animation */
 .winning-line {
   position: absolute;
-  background-color: rgba(255, 0, 0, 0.7); /* Red line color */
+  background-color: rgba(255, 0, 0, 0.7);
   transition: all 0.5s ease-in-out;
-  z-index: 10; /* Ensure the line is above the grid */
 }
 
 /* Horizontal Winning Line */
@@ -106,4 +105,28 @@ button:disabled {
   height: 10px;
   background-color: rgba(0, 255, 0, 0.7); /* Green for diagonal */
   transform-origin: center;
+  transform: rotate(45deg);
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+  .game-board {
+    grid-template-columns: repeat(3, 80px);  /* Adjust column size for smaller screens */
+    grid-template-rows: repeat(3, 80px);     /* Adjust row size */
+    gap: 3px;  /* Reduce space between cells */
+  }
+
+  .cell {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+  }
+
+  #status {
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
 }
