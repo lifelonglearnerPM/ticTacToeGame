@@ -33,7 +33,6 @@ const checkWinner = () => {
   return false;
 };
 
-
 // Highlight the winning line
 const highlightWinningLine = (pattern) => {
   const [a, b, c] = pattern;
@@ -47,7 +46,7 @@ const highlightWinningLine = (pattern) => {
   const winningLine = document.createElement('div');
   winningLine.classList.add('winning-line');
 
-  // For horizontal win
+  // Horizontal win (same row)
   if (a === b && b === c) { 
     winningLine.classList.add('horizontal');
     winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
@@ -55,22 +54,21 @@ const highlightWinningLine = (pattern) => {
     winningLine.style.width = `${rectA.width * 3}px`; // Cover all 3 columns
     winningLine.style.height = `10px`;
   } 
-  // For vertical win
-  else if (a % 3 === b % 3 && b % 3 === c % 3) {  // Cells are vertically aligned
+  // Vertical win (same column)
+  else if (a % 3 === b % 3 && b % 3 === c % 3) { 
     winningLine.classList.add('vertical');
     winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
     winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
     winningLine.style.height = `${rectA.height * 3}px`; // Cover all 3 rows
     winningLine.style.width = `10px`;
   } 
-  // For diagonal win
-  else {
+  // Diagonal win (diagonal line)
+  else { 
     const startX = rectA.left + rectA.width / 2;
     const startY = rectA.top + rectA.height / 2;
     const endX = rectC.left + rectC.width / 2;
     const endY = rectC.top + rectC.height / 2;
 
-    // Diagonal win line: Calculate distance between the first and last cell
     const diagonalLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
 
     winningLine.classList.add('diagonal');
@@ -79,56 +77,62 @@ const highlightWinningLine = (pattern) => {
     winningLine.style.width = `${diagonalLength}px`;
     winningLine.style.height = `10px`;
 
-    // Calculate angle of rotation
     const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
     winningLine.style.transform = `rotate(${angle}deg)`;
     winningLine.style.transformOrigin = 'center';
   }
 
-  // Add the line to the body
+  // Append the line to the body
   document.body.appendChild(winningLine);
 };
 
+// Handle player moves
+const handleCellClick = (event) => {
+  if (!gameActive) return;
 
+  const cell = event.target;
+  const index = cell.dataset.index;
 
-// Handle cell click
-const handleCellClick = (index) => {
-  if (gameBoard[index] !== '' || !gameActive) return;
+  if (gameBoard[index] !== '') return; // Cell already occupied
 
+  // Update the board and cell
   gameBoard[index] = currentPlayer;
-  cells[index].innerText = currentPlayer;
+  cell.innerText = currentPlayer;
 
+  // Check for winner
   if (checkWinner()) {
-    statusDisplay.innerText = `${winner} wins!`;
+    statusDisplay.innerText = `Player ${currentPlayer} Wins!`;
     gameActive = false;
-  } else {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    statusDisplay.innerText = `${currentPlayer}'s turn`;
+    return;
   }
+
+  // Switch player
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
 };
 
 // Reset the game
 const resetGame = () => {
   gameBoard = ['', '', '', '', '', '', '', '', ''];
-  winner = null;
   currentPlayer = 'X';
   gameActive = true;
-  statusDisplay.innerText = `${currentPlayer}'s turn`;
+  winner = null;
+  statusDisplay.innerText = `Player X's turn`;
 
   cells.forEach(cell => {
     cell.innerText = '';
   });
 
+  // Remove any existing winning lines
   const winningLine = document.querySelector('.winning-line');
   if (winningLine) {
     winningLine.remove();
   }
 };
 
-// Add event listeners
-cells.forEach((cell, index) => {
-  cell.dataset.index = index;
-  cell.addEventListener('click', () => handleCellClick(index));
+// Event Listeners
+cells.forEach(cell => {
+  cell.addEventListener('click', handleCellClick);
 });
 
 resetButton.addEventListener('click', resetGame);

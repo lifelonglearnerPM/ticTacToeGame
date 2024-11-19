@@ -81,7 +81,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-./* Winning Line Animation */
+/* Winning Line Animation */
 .winning-line {
   position: absolute;
   background-color: rgba(255, 0, 0, 0.7); /* Red line color */
@@ -92,41 +92,18 @@ button:disabled {
 /* Horizontal Winning Line */
 .horizontal {
   height: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green color for horizontal */
+  background-color: rgba(0, 255, 0, 0.7); /* Green for horizontal */
 }
 
 /* Vertical Winning Line */
 .vertical {
   width: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green color for vertical */
+  background-color: rgba(0, 255, 0, 0.7); /* Green for vertical */
 }
 
 /* Diagonal Winning Line */
 .diagonal {
   height: 10px;
-  background-color: rgba(0, 255, 0, 0.7); /* Green color for diagonal */
+  background-color: rgba(0, 255, 0, 0.7); /* Green for diagonal */
   transform-origin: center;
-}
-
-/* Responsive Layout */
-@media (max-width: 600px) {
-  .game-board {
-    grid-template-columns: repeat(3, 80px);  /* Adjust column size for smaller screens */
-    grid-template-rows: repeat(3, 80px);     /* Adjust row size */
-    gap: 3px;  /* Reduce space between cells */
-  }
-
-  .cell {
-    width: 80px;
-    height: 80px;
-    font-size: 1.5rem;
-  }
-
-  #status {
-    font-size: 1.2rem;
-  }
-
-  button {
-    font-size: 0.9rem;
-  }
 }
