@@ -35,28 +35,40 @@ const checkWinner = () => {
 
 // Highlight the winning line
 const highlightWinningLine = (pattern) => {
-  const winningLine = document.createElement('div');
   const [a, b, c] = pattern;
-  const rect = cells[a].getBoundingClientRect();
 
-  // Determine the line direction
-  if (a === c) {
-    winningLine.classList.add('winning-line', 'vertical');
-    winningLine.style.left = `${rect.left + rect.width / 2 - 5}px`;
-    winningLine.style.height = `${rect.height * 3 + 10}px`;
-  } else if (a === b) {
-    winningLine.classList.add('winning-line', 'horizontal');
-    winningLine.style.top = `${rect.top + rect.height / 2 - 5}px`;
-    winningLine.style.width = `${rect.width * 3 + 10}px`;
-  } else {
-    winningLine.classList.add('winning-line', 'diagonal');
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+  // Get the positions of the cells for the winning pattern
+  const rectA = cells[a].getBoundingClientRect();
+  const rectB = cells[b].getBoundingClientRect();
+  const rectC = cells[c].getBoundingClientRect();
+
+  // Create a div for the winning line
+  const winningLine = document.createElement('div');
+  winningLine.classList.add('winning-line');
+
+  // Calculate the position and size of the line
+  if (a === b && b === c) { // Vertical line
+    winningLine.classList.add('vertical');
+    winningLine.style.left = `${rectA.left + rectA.width / 2 - 5}px`;
+    winningLine.style.height = `${rectA.height * 3}px`;
+    winningLine.style.top = `${rectA.top - rectA.height / 2}px`;
+  } else if (a === c) { // Horizontal line
+    winningLine.classList.add('horizontal');
+    winningLine.style.top = `${rectA.top + rectA.height / 2 - 5}px`;
+    winningLine.style.width = `${rectA.width * 3}px`;
+    winningLine.style.left = `${rectA.left - rectA.width / 2}px`;
+  } else { // Diagonal line
+    winningLine.classList.add('diagonal');
+    const centerX = rectA.left + rectA.width / 2;
+    const centerY = rectA.top + rectA.height / 2;
     winningLine.style.left = `${centerX - 50}px`;
     winningLine.style.top = `${centerY - 50}px`;
-    winningLine.style.width = `${Math.sqrt(Math.pow(rect.width * 3, 2) + Math.pow(rect.height * 3, 2)) + 10}px`;
+    winningLine.style.width = `${Math.sqrt(Math.pow(rectA.width * 3, 2) + Math.pow(rectA.height * 3, 2)) + 10}px`;
+    winningLine.style.transform = `rotate(45deg)`;
+    winningLine.style.transformOrigin = 'center';
   }
 
+  // Add the line to the body
   document.body.appendChild(winningLine);
 };
 
