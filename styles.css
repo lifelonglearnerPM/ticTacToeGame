@@ -33,31 +33,49 @@ h1 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    position: relative;
+    position: relative; /* To position the winning line */
 }
 
+/* Winning line styles */
 .winning-line {
     position: absolute;
-    width: 100%;
-    height: 100%;
     background-color: yellow;
     opacity: 0.7;
 }
 
+/* Horizontal winning line */
 .horizontal {
-    transform: translateY(50%);
+    width: 100%;
+    height: 10px; /* Adjust the height as needed */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
+/* Vertical winning line */
 .vertical {
-    transform: translateX(50%);
+    height: 100%;
+    width: 10px; /* Adjust the width as needed */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Diagonal winning lines */
+.diagonal-left-to-right,
+.diagonal-right-to-left {
+    width: 141.42px; /* Diagonal line length for a 100px square cell */
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
 }
 
 .diagonal-left-to-right {
-    transform: rotate(45deg) translate(50%, 50%);
+    transform: rotate(45deg) translate(-50%, -50%);
 }
 
 .diagonal-right-to-left {
-    transform: rotate(-45deg) translate(50%, 50%);
+    transform: rotate(-45deg) translate(-50%, -50%);
 }
 
 #status {
