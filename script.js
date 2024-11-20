@@ -40,9 +40,9 @@ const checkWin = () => {
     for (const condition of winningConditions) {
         const [a, b, c] = condition;
         if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            cells[a].classList.add('winning-line');
-            cells[b].classList.add('winning-line');
-            cells[c].classList.add('winning-line');
+            cells[a].classList.add('winning-line', 'horizontal');
+            cells[b].classList.add('winning-line', 'horizontal');
+            cells[c].classList.add('winning-line', 'horizontal');
             return true;
         }
     }
@@ -60,7 +60,7 @@ const resetGame = () => {
     statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
     cells.forEach(cell => {
         cell.innerText = '';
-        cell.classList.remove('winning-line');
+        cell.classList.remove('winning-line', 'horizontal', 'vertical', 'diagonal-left-to-right', 'diagonal-right-to-left');
     });
 };
 

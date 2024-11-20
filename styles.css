@@ -33,42 +33,41 @@ h1 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    position: relative; /* To position the winning line */
+    position: relative;
 }
 
-/* Winning line styles */
 .winning-line {
-  position: absolute;
-  background-color: yellow;
-  opacity: 0.7;
+    position: absolute;
+    background-color: yellow;
+    opacity: 0.7;
 }
 
 .horizontal {
-  width: 100%;
-  height: 10px; /* Adjust the height as needed */
-  top: 50%;
-  transform: translateY(-50%);
+    width: 100%;
+    height: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .vertical {
-  height: 100%;
-  width: 10px; /* Adjust the width as needed */
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.diagonal {
-  position: absolute;
-  width: 141.42px; /* Diagonal line length for a 100px square cell */
-  height: 5px;
-  background-color: yellow;
-  opacity: 0.7;
+    height: 100%;
+    width: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .diagonal-left-to-right {
-  transform: rotate(45deg) translate(0, -50%);
+    width: 141.42px;
+    height: 10px;
+    transform: rotate(45deg) translate(-50%, -50%);
 }
 
 .diagonal-right-to-left {
-  transform: rotate(-45deg) translate(100%, -50%);
+    width: 141.42px;
+    height: 10px;
+    transform: rotate(-45deg) translate(50%, -50%);
+}
+
+#status {
+    margin-top: 20px;
 }
