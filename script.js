@@ -40,33 +40,40 @@ const checkWin = () => {
     for (const condition of winningConditions) {
         const [a, b, c] = condition;
         if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            // Highlight the winning line
-            const cells = document.querySelectorAll('.cell');
-            cells[a].classList.add('winning-line');
-            cells[b].classList.add('winning-line');
-            cells[c].classList.add('winning-line');
-
-            // Add appropriate class for winning line animation
+            // Create and position winning line
             const winningLine = document.createElement('div');
             winningLine.classList.add('winning-line');
-            if (a === 0 && b === 1 && c === 2) {
-                winningLine.classList.add('horizontal');
-            } else if (a === 3 && b === 4 && c === 5) {
-                winningLine.classList.add('horizontal');
-            } else if (a === 6 && b === 7 && c === 8) {
-                winningLine.classList.add('horizontal');
-            } else if (a === 0 && b === 3 && c === 6) {
-                winningLine.classList.add('vertical');
-            } else if (a === 1 && b === 4 && c === 7) {
-                winningLine.classList.add('vertical');
-            } else if (a === 2 && b === 5 && c === 8) {
-                winningLine.classList.add('vertical');
-            } else if (a === 0 && b === 4 && c === 8) {
+
+            // Horizontal lines
+            if (condition[0] === 0 && condition[1] === 1 && condition[2] === 2) {
+                winningLine.classList.add('horizontal', 'top');
+            } else if (condition[0] === 3 && condition[1] === 4 && condition[2] === 5) {
+                winningLine.classList.add('horizontal', 'middle');
+            } else if (condition[0] === 6 && condition[1] === 7 && condition[2] === 8) {
+                winningLine.classList.add('horizontal', 'bottom');
+            } 
+            // Vertical lines
+            else if (condition[0] === 0 && condition[1] === 3 && condition[2] === 6) {
+                winningLine.classList.add('vertical', 'left');
+            } else if (condition[0] === 1 && condition[1] === 4 && condition[2] === 7) {
+                winningLine.classList.add('vertical', 'center');
+            } else if (condition[0] === 2 && condition[1] === 5 && condition[2] === 8) {
+                winningLine.classList.add('vertical', 'right');
+            } 
+            // Diagonal lines
+            else if (condition[0] === 0 && condition[1] === 4 && condition[2] === 8) {
                 winningLine.classList.add('diagonal-left-to-right');
-            } else if (a === 2 && b === 4 && c === 6) {
+            } else if (condition[0] === 2 && condition[1] === 4 && condition[2] === 6) {
                 winningLine.classList.add('diagonal-right-to-left');
             }
-            document.body.appendChild(winningLine);
+
+            // Highlight winning cells
+            cells[a].classList.add('winning-cell');
+            cells[b].classList.add('winning-cell');
+            cells[c].classList.add('winning-cell');
+
+            // Add winning line to the game board
+            document.querySelector('.game-board').appendChild(winningLine);
 
             return true;
         }
@@ -83,10 +90,12 @@ const resetGame = () => {
     currentPlayer = 'X';
     gameActive = true;
     statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
+    
     cells.forEach(cell => {
         cell.innerText = '';
-        cell.classList.remove('winning-line');
+        cell.classList.remove('winning-cell');
     });
+    
     const winningLines = document.querySelectorAll('.winning-line');
     winningLines.forEach(line => line.remove());
 };
