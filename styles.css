@@ -1,123 +1,61 @@
-/* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body styling */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    flex-direction: column;
+    cursor: pointer;
 }
 
-/* Header/Title styling */
-h1 {
-   font-size: 2rem;
-   margin-bottom: 20px;
-   color: #333;
-}
-
-/* Game-board Container */
-.game-board {
-   display: grid;
-   grid-template-columns: repeat(3, 100px); /* Three equal columns */
-   grid-template-rows: repeat(3, 100px); /* Three equal rows */
-   gap: 5px; /* Space between cells */
-   justify-content: center;
-   margin-bottom: 20px;
-   position: relative; /* Ensure correct positioning for lines */
-}
-
-/* Individual Cell Styling */
-.cell {
-   width: 100px;
-   height: 100px;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   border: 2px solid #333;
-   font-size: 2rem;
-   background-color: #fff;
-   cursor: pointer;
-   transition: background-color .3s ease; 
-}
-
-.cell:hover {
-   background-color: #f1f1f1; 
-}
-
-/* Game Status */
-#status {
-   font-size: 1.5rem; 
-   color: #333; 
-   margin-bottom: 20px; 
-   text-align: center; 
-}
-
-/* Reset Button */
-button {
-   font-size: 1rem; 
-   padding: 10px 20px; 
-   border: none; 
-   background-color: #28a745; 
-   color: white; 
-   cursor: pointer; 
-   border-radius: 5px; 
-   transition: background-color .3s ease; 
-}
-
-button:hover {
-   background-color: #218838; 
-}
-
-button:disabled {
-   background-color: #ccc; 
-   cursor: not-allowed; 
-}
-
-/* Winning Line Animation */
 .winning-line {
-   position: absolute; 
-   background-color: rgba(0,255,0,.7); /* Green line */
-   transition: all .5s ease-in-out; 
+    background-color: yellow;
+    position: absolute;
 }
 
-/* Horizontal Winning Line */
 .horizontal {
-   height: 10px; 
+    width: 300px;
+    height: 5px;
 }
 
-/* Vertical Winning Line */
 .vertical {
-   width:10px; 
+    width: 5px;
+    height: 300px;
 }
 
-/* Diagonal Winning Line */
-.diagonal {
-   height:10px; 
+.diagonal-left-to-right {
+    width: 300px;
+    height: 5px;
+    transform: rotate(45deg);
+    transform-origin: left top;
 }
 
-/* Responsive Layout */
-@media (max-width :600px) {
-   .game-board {
-      grid-template-columns : repeat(3 ,80px); /* Adjust column size for smaller screens */
-      grid-template-rows : repeat(3 ,80px); /* Adjust row size */
-      gap :3px ; /* Reduce space between cells */  
-}
-.cell {
-      width :80px ;  
-      height :80px ;  
-      font-size :1.5rem ;  
-}
-#status {  
-      font-size :1.2rem ;  
-}
-button {  
-      font-size :0.9rem ;  
+.diagonal-right-to-left {
+    width: 300px;
+    height: 5px;
+    transform: rotate(-45deg);
+    transform-origin: right top;
 }
