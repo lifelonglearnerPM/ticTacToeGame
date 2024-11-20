@@ -1,41 +1,86 @@
-/* Reset all default styles */
+/* General styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-/* Body styles */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
 }
 
-/* Game board styles */
+/* Game container */
+.game-container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
 .game-board {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-/* Cell styles */
+.row {
+  display: flex;
+}
+
 .cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid black;
-    font-size: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border: 2px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-/* Winning cell style */
+.cell:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+}
+
+/* Game status */
+.game-info {
+  font-size: 1.2rem;
+}
+
+#status {
+  margin-bottom: 10px;
+}
+
+#resetBtn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#resetBtn:hover {
+  background-color: #0056b3;
+}
+
+/* Winning cell highlight */
 .winning-cell {
-    background-color: yellow;
+  background-color: rgba(255, 0, 0, 0.7); /* Red color */
+  color: white;
+  font-weight: bold;
 }
