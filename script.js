@@ -5,91 +5,67 @@ const resetButton = document.getElementById('resetBtn');
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let currentPlayer = 'X';
 let gameActive = true;
-let winner = null;
 
-const checkWinner = () => {
-  const winningPatterns = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], 
-    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-    [0, 4, 8], [2, 4, 6]
-  ];
-
-  for (let pattern of winningPatterns) {
-    const [a, b, c] = pattern;
-    if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-      winner = currentPlayer;
-      highlightWinningLine(pattern);
-      return true;
-    }
-  }
-
-  if (!gameBoard.includes('')) {
-    statusDisplay.innerText = "It's a Draw!";
-    gameActive = false;
-    return true;
-  }
-
-  return false;
-};
-
-const highlightWinningLine = (pattern) => {
-  const winningLine = document.createElement('div');
-  const [a, b, c] = pattern;
-  const rect = cells[a].getBoundingClientRect();
-
-  if (a === c) {
-    winningLine.classList.add('winning-line', 'vertical');
-    winningLine.style.left = `${rect.left + rect.width / 2 - 5}px`;
-    winningLine.style.height = `${rect.height * 3 + 10}px`;
-  } else if (a === b) {
-    winningLine.classList.add('winning-line', 'horizontal');
-    winningLine.style.top = `${rect.top + rect.height / 2 - 5}px`;
-    winningLine.style.width = `${rect.width * 3 + 10}px`;
-  } else {
-    winningLine.classList.add('winning-line', 'diagonal');
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    winningLine.style.left = `${centerX - 212}px`;
-    winningLine.style.top = `${centerY - 5}px`;
-  }
-
-  document.body.appendChild(winningLine);
-};
+const winningConditions = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
+    [0, 4, 8], [2, 4, 6] // Diagonal
+];
 
 const handleCellClick = (index) => {
-  if (gameBoard[index] !== '' || !gameActive) return;
+    if (gameBoard[index] || !gameActive) return;
 
-  gameBoard[index] = currentPlayer;
-  cells[index].innerText = currentPlayer;
+    gameBoard[index] = currentPlayer;
+    cells[index].innerText = currentPlayer;
 
-  if (checkWinner()) {
-    statusDisplay.innerText = `${winner} wins!`;
-    gameActive = false;
-  } else {
+    const isWin = checkWin();
+    if (isWin) {
+        statusDisplay.innerText = `${currentPlayer} wins!`;
+        gameActive = false;
+        return;
+    }
+
+    const isDraw = checkDraw();
+    if (isDraw) {
+        statusDisplay.innerText = "It's a Draw!";
+        gameActive = false;
+        return;
+    }
+
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    statusDisplay.innerText = `${currentPlayer}'s turn`;
-  }
+    statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
+};
+
+const checkWin = () => {
+    for (const condition of winningConditions) {
+        const [a, b, c] = condition;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+            cells[a].classList.add('winning-line');
+            cells[b].classList.add('winning-line');
+            cells[c].classList.add('winning-line');
+            return true;
+        }
+    }
+    return false;
+};
+
+const checkDraw = () => {
+    return !gameBoard.includes('');
 };
 
 const resetGame = () => {
-  gameBoard = ['', '', '', '', '', '', '', '', ''];
-  winner = null;
-  currentPlayer = 'X';
-  gameActive = true;
-  statusDisplay.innerText = `${currentPlayer}'s turn`;
-
-  cells.forEach(cell => {
-    cell.innerText = '';
-  });
-
-  const winningLine = document.querySelector('.winning-line');
-  if (winningLine) {
-    winningLine.remove();
-  }
+    gameBoard.fill('');
+    currentPlayer = 'X';
+    gameActive = true;
+    statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
+    cells.forEach(cell => {
+        cell.innerText = '';
+        cell.classList.remove('winning-line');
+    });
 };
 
-cells.forEach(cell => {
-  cell.addEventListener('click', () => handleCellClick(cell.dataset.index));
+cells.forEach((cell, index) => {
+    cell.addEventListener('click', () => handleCellClick(index));
 });
 
 resetButton.addEventListener('click', resetGame);
